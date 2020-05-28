@@ -1,0 +1,39 @@
+﻿@model IEnumerable<CustomerApp.Models.CustomerLog>
+
+@{
+    ViewData["Title"] = "Logs";
+}
+
+<h1>Logs</h1>
+
+<div>
+    <p><h4>Customer: @ViewData["FullName"]</h4></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.LogDateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LogDescription)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LogDateTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LogDescription)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

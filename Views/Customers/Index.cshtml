@@ -1,0 +1,85 @@
+﻿@model PaginatedList<CustomerApp.Models.Customer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Customers</h1>
+
+<p style="padding-top:0.75rem">
+    <a asp-action="Create">Create New</a>
+</p>
+@using (Html.BeginForm("Index", "Customers", FormMethod.Get))
+{
+    <p>
+        <select name="filters">
+            <option value="FirstName">First Name</option>
+            <option value="LastName">Last Name</option>
+            <option value="Email">Email Address</option>
+            <option value="MobileNumber">Mobile Number</option>
+        </select>
+        <input type="text" name="SearchString">
+        <input type="submit" value="Search" /> |
+        <a asp-action="Index">Back to Full List</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Full Name
+            </th>
+            <th>
+                Email Address
+            </th>
+            <th>
+                Mobile Number
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MobileNumber)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CustomerID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CustomerID">Details</a> |
+                    <a asp-action="Logs" asp-route-id="@item.CustomerID">Logs</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CustomerID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
+
